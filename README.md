@@ -8,7 +8,7 @@ Git Repo
 
 **Pill App (better name tba)**
 
-The Pill App is designed for individuals who have to take medications at set times. There are multiple medications that a person might need to take based on their situation. It could be someone who is recovering from their sickness, chronic illness, they are older and generally on multiple medications or a regular person who's keen on taking supplements such as vitamins but finds themselves being forgetful. The application could also be used by parents for their kids, caregivers or pet owners.
+The Pill App is designed for individuals who have to take medications at set times. There are multiple medications that a person might need to take based on their situation. It could be someone who is recovering from their sickness, chronic illness, they are older and generally on multiple medications or a regular person who's keen on taking supplements such as vitamins but finds it's hard to remember when to take their medications. The application could also be used by parents for their kids, caregivers or pet owners.
 
 The application would look at solving this problem by giving them a terminal app into which they can enter the medication they’d need to take and when they’d need to take it and how long they’d need the to take it for and if the medication is to be taken, before food, after food. They can then add and delete and update this list when things changes. The application would then send them a email reminder on the day the pill needs to be taken.
 
