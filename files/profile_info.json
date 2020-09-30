@@ -1,0 +1,48 @@
+[
+    {
+        "Medication" : "Iron Supplements",
+        "Intake_Time" : "Afternoon",
+        "Duration" : "12 months",
+        "Extra_Info" : "after food"
+    }
+] ,
+
+[
+    {
+        "Medication" : "Vitamin C",
+        "Intake_Time" : "Morning",
+        "Duration" : "12 months",
+        "Extra_Info" : "before food"
+    }
+
+],[
+    {
+        "Medication" : "Sugar Pills",
+        "Intake_Time" : "Morning",
+        "Duration" : "3 months",
+        "Extra_Info" : "after food"
+        }
+],
+
+[
+    {
+        "Medication" : "Vitamin C",
+        "Intake_Time" : "Morning",
+        "Duration" : "3 months",
+        "Extra_Info" : "before food"
+    } ,
+
+    {
+        "Medication" : "Iron Supplements",
+        "Intake_Time" : "Night",
+        "Duration" : "6 months",
+        "Extra_Info" : "after food"
+    } ,
+
+    {
+        "Medication" : "xyz",
+        "Intake_Time" : "morning",
+        "Duration" : "3 months",
+        "Extra_Info" : "after food"
+    }
+][{"Medication":"asf","Intake_Time":"asf","Duration":"asf","Extra_Info":"asf"}][{"Medication":"asf","Intake_Time":"asf","Duration":"asf","Extra_Info":"asf"},{"Medication":"asdf","Intake_Time":"asdf","Duration":"sdf","Extra_Info":"sdf"}][{"Medication":"hsjfja","Intake_Time":"skjfgsd","Duration":"skjdfgj","Extra_Info":"djfgj"}][{"Medication":"hsjfja","Intake_Time":"skjfgsd","Duration":"skjdfgj","Extra_Info":"djfgj"},{"Medication":"haksjfg","Intake_Time":"aksfj","Duration":"hf","Extra_Info":"hfk"}][{"Medication":"hsjfja","Intake_Time":"skjfgsd","Duration":"skjdfgj","Extra_Info":"djfgj"},{"Medication":"haksjfg","Intake_Time":"aksfj","Duration":"hf","Extra_Info":"hfk"},{"Medication":"asjdf","Intake_Time":"ahsjfk","Duration":"ahsfj","Extra_Info":"fjks"}][{"Medication":"vitamin c","Intake_Time":"morning","Duration":"3 months","Extra_Info":"before food"}][{"Medication":"vitamin c","Intake_Time":"morning","Duration":"3 months","Extra_Info":"before food"},{"Medication":"iron supplements","Intake_Time":"afternoon","Duration":"6 months","Extra_Info":"after food"}][{"Medication":"vitamin c","Intake_Time":"morning","Duration":"3 months","Extra_Info":"before food"},{"Medication":"iron supplements","Intake_Time":"afternoon","Duration":"6 months","Extra_Info":"after food"},{"Medication":"vitamin a","Intake_Time":"night","Duration":"before food","Extra_Info":"before food"}][{"Medication":"sdg","Intake_Time":"dfsgdfgdfsgsdf","Duration":"sgdfgsdfg","Extra_Info":"sdgfdsfg"}][{"Medication":"ddfg","Intake_Time":"dfg","Duration":"dgf","Extra_Info":"dg"}][{"Medication":"Viagra","Intake_Time":"9 times a day","Duration":"indefinitely","Extra_Info":"N/a"}]

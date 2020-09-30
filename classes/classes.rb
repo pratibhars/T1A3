@@ -1,13 +1,17 @@
- class User
+class User
 
-    def initialize
+    def initialize(name,password,email)
         @name = name
         @password = password
         @email = email 
     end
-
-    def user_input
-        user_input = gets.chomp
+    def write_user(users)
+        File.open("files/user_info.json", "w") do |f|
+            f.write(users.to_json)
+        end
+    
     end
 
  end
+
+ 
