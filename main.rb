@@ -1,6 +1,4 @@
-
-require_relative "methods/methods.rb"
-# require_relative "classes/classes.rb"
+require_relative "classes/classes.rb"
 
 require "artii"
 require "colorize"
@@ -9,35 +7,18 @@ require "tty-prompt"
 require "tty-table"
 
 #main
-# user = []
-# you had ^^ which was defaulting the users to an empty array, it should of been what was in your json file
-# for this one - I should have written it as {"users": []}?
-# no, I have output the users, so after you login you can see what it looks like
-# oh yes, as a array
-# the json is an array, and each user in an hash in the array
-# yes that makes sense. sorry so it would essentially have been parsing the json file into users as opposed to an empty array,
-# You will need to do the same thing with your profiles
 
 users = JSON.parse(File.read("./files/user_info.json"))
 profiles = JSON.parse(File.read("./files/profile_info.json"))
 login = false 
 
-# As we were just appending, you were adding a new json array to the existing one, which wasn't the intended action
-# So what we are doing now is having the <users> which was pushed to previously, and overwriting the old users
-# You'll want to do the same thing here
-
 def write_user(users)
     File.open("./files/user_info.json", "w") do |f|
         f.write(users.to_json)
     end
-
 end
 
-def write_profile(profiles)
-    File.open("./files/profile_info.json", "w") do |f|
-    f.write(profiles.to_json)
-    end
-end 
+
 
 loop do 
     render_logo
@@ -60,17 +41,18 @@ loop do
         end 
         
     end
-    p users
+    
+    
 
     
     if option == 1
         prompt = TTY::Prompt.new
-        option = prompt.select("New or Existing?".colorize(:red)) do |menu|
+        option_login = prompt.select("New or Existing?".colorize(:red)) do |menu|
             menu.enum "."
             menu.choice "New", 1
             menu.choice "Existing", 2
         end
-            if option == 1
+            if option_login == 1
                 puts "Create your username:"
                 name = user_input
                 puts "Create your password:" 
@@ -99,7 +81,7 @@ loop do
                     write_profile(profiles)
                 end 
                 
-            elsif option == 2
+            elsif option_login == 2
                 puts "Please enter your username"
                 name = user_input
                 puts "Please enter your password"

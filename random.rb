@@ -22,6 +22,12 @@ require "terminal-table"
 # end 
 
 # table
+
+# def write_profile(profiles)
+#     File.open("./files/profile_info.json", "w") do |f|
+#     f.write(profiles.to_json)
+#     end
+# end 
 login = false 
 
 loop do 
