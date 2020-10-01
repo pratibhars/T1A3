@@ -9,29 +9,35 @@ require "tty-prompt"
 require "tty-table"
 
 #main
-users = []
-profiles = []
+# user = []
+# you had ^^ which was defaulting the users to an empty array, it should of been what was in your json file
+# for this one - I should have written it as {"users": []}?
+# no, I have output the users, so after you login you can see what it looks like
+# oh yes, as a array
+# the json is an array, and each user in an hash in the array
+# yes that makes sense. sorry so it would essentially have been parsing the json file into users as opposed to an empty array,
+# You will need to do the same thing with your profiles
 
+users = JSON.parse(File.read("./files/user_info.json"))
+profiles = JSON.parse(File.read("./files/profile_info.json"))
 login = false 
 
-def write_user(users)
+# As we were just appending, you were adding a new json array to the existing one, which wasn't the intended action
+# So what we are doing now is having the <users> which was pushed to previously, and overwriting the old users
+# You'll want to do the same thing here
 
-    File.open("files/user_info.json", "a") do |f|
+def write_user(users)
+    File.open("./files/user_info.json", "w") do |f|
         f.write(users.to_json)
     end
 
 end
 
 def write_profile(profiles)
-
-    File.open("files/profile_info.json", "a") do |f|
+    File.open("./files/profile_info.json", "w") do |f|
     f.write(profiles.to_json)
     end
-
 end 
-
-
-
 
 loop do 
     render_logo
@@ -42,15 +48,20 @@ loop do
         if login == false
             menu.choice "Login", 1
         end 
+        if login == false || login == true 
         menu.choice "Help", 2
+        end
+
         if login == true
             menu.choice "Profile", 3
         end
-        if login == true 
+        if login == true
             menu.choice "Logout", 4
         end 
         
     end
+    p users
+
     
     if option == 1
         prompt = TTY::Prompt.new
@@ -94,13 +105,15 @@ loop do
                 puts "Please enter your password"
                 password = user_input
                 json = JSON.parse(File.read("./files/user_info.json"))
-                puts json
-                # valid_data = ("/files/user_info.json")
-                # if name == valid_data["name"] && password == valid_data["password"]
-                puts "Welcome #{name}"
-                # else
-                #     puts "Incorrect Username or Password"
-                # end
+                json.find_index do |e| 
+                    if e["name"] == name && e["password"] == password
+                        puts "Welcome #{name}"
+                        login = true
+                    end
+                    if login == true 
+                        
+                    end
+                end
             end 
     end 
     if option == 2
@@ -109,10 +122,11 @@ loop do
             menu.enum "."
             menu.choice "Help", 1
         end
-        if option_help == 1
-            puts "Welcome to The Pill Box"
-            puts "This is a quick guide on how to best use the app"
-        end 
+    if option_help == 1
+        puts "Welcome to The Pill Box"
+        puts "This is a quick guide on how to best use the app"
+
+    end 
 
     end 
     if option == 3
@@ -164,15 +178,18 @@ loop do
                     profiles << profile
                     write_profile(profiles)
                 elsif add_more == "n"
-                    profile_select
+                    
                 end
+
             elsif profile_select == 2
                 puts "Here's your current list of medications:"
-                # json = File.read("./files/profile_info.json")
+                puts "What would you like to update?"
+                answer = user_input
             
             elsif profile_select == 3
                 puts "Here's your current list of medications:"
                 puts "What would you like to delete"
+                answer - user_input
             end
             # else profile_select == 4
             #     puts "Would you like to amend your: Username, Password or Email?"
