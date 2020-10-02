@@ -67,7 +67,18 @@ def profile_menu
         menu.choice "Update Profile", 4
         end
         if profile_select == 1
-            add_meds
+            puts "What medications would you like to add?"
+            meds = user_input
+            puts "When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?"
+            time = user_input
+            puts "How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?"
+            duration = user_input
+            puts "When should you take the medication (options: before food, after food)"
+            info = user_input
+            user = {Medication: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
+            users = JSON.parse(File.read("./files/user_info.json"))
+            users["users"] << user
+            write_user(users)
         end
     when 3 #need to fix logout
         render_logo
@@ -105,18 +116,7 @@ def new_user
 end 
 
 def add_meds
-    puts "What medications would you like to add?"
-    meds = user_input
-    puts "When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?"
-    time = user_input
-    puts "How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?"
-    duration = user_input
-    puts "When should you take the medication (options: before food, after food)"
-    info = user_input
-    user_new medication = {Name: name, Password: password, Email: email, Medication: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
-    users = JSON.parse(File.read("./files/user_info.json"))
-    users["users"] << user
-    write_user(users)
+    
 end
 
 def update_meds
