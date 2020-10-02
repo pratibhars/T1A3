@@ -48,7 +48,20 @@ loop do
         menu.choice "Existing", 2
         end
         if option_login == 1
-            new_user
+            name = prompt.ask("Create your username:", required: true)
+            password = prompt.mask("Create your password:", required: true)
+            email = prompt.ask("Please enter your email:", required: true)
+            system("clear")
+            puts "Welcome #{name}, Let's create your profile"
+            meds = prompt.ask("What medications would you like to add?", required: true)
+            time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true)
+            duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true)
+            info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
+            system("clear")
+            user = {Name: name, Password: password, Email: email, Medication: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
+            users = JSON.parse(File.read("./files/user_info.json"))
+            users["users"] << user
+            write_user(users)
             login = true 
             # if login == true 
             # end    
