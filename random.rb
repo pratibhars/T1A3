@@ -14,6 +14,17 @@ require "json"
 #         f.write(users.to_json)
 #     end
 # end
+name = prompt.ask("Please confirm your username", required: true)
+meds = prompt.ask("What medication would you like to update?", required: true)
+new_meds = prompt.ask ("What medication would you like to update this to?", required: true)
+time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true)
+duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true)
+info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
+update_meds =
+def update_meds
+
+        
+end
 
 def add_new_med(name, med_data)
     user_list = JSON.parse(File.read("./files/user_info.json"))
@@ -51,7 +62,3 @@ med_data = {Med_Name: meds, Intake_Time: time, Duration: duration, Extra_Info: i
 add_new_med(name, med_data)
 retrieve_meds(name)
 
-def update_meds
-    
-    
-end 
