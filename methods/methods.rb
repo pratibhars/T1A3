@@ -105,7 +105,7 @@ def profile_menu
             answer = user_input
             answer.capitalize!
             if answer == "Y"
-                name = prompt.ask("Can we please confirm your username?", required: true)
+                name = prompt.ask("Can we please confirm your username?", required: true).colorize
                 meds = prompt.ask("What medications would you like to add?", required: true)
                 time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true)
                 duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true)
@@ -113,6 +113,8 @@ def profile_menu
                 system("clear")
                 med_data = {Med_Name: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
                 add_new_med(name, med_data)
+                puts "press enter to return to menu".colorize(:red)
+                profile_menu
             elsif answer == "N"
                 profile_menu
             end 
@@ -128,29 +130,29 @@ end
 
 
 
-def new_user
-    puts "Create your username:"
-    name = user_input
-    puts "Create your password:" 
-    password = user_input
-    puts "Please enter your email:"
-    email = user_input
-    system("clear")
-    puts "Welcome #{name}, Let's create your profile"
-    puts "What medications would you like to add?"
-    meds = user_input
-    puts "When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?"
-    time = user_input
-    puts "How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?"
-    duration = user_input
-    puts "When should you take the medication (options: before food, after food)"
-    info = user_input
-    system("clear")
-    user = {Name: name, Password: password, Email: email, Medication: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
-    users = JSON.parse(File.read("./files/user_info.json"))
-    users["users"] << user
-    write_user(users)
-end 
+# def new_user
+#     puts "Create your username:"
+#     name = user_input
+#     puts "Create your password:" 
+#     password = user_input
+#     puts "Please enter your email:"
+#     email = user_input
+#     system("clear")
+#     puts "Welcome #{name}, Let's create your profile"
+#     puts "What medications would you like to add?"
+#     meds = user_input
+#     puts "When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?"
+#     time = user_input
+#     puts "How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?"
+#     duration = user_input
+#     puts "When should you take the medication (options: before food, after food)"
+#     info = user_input
+#     system("clear")
+#     user = {Name: name, Password: password, Email: email, Medication: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
+#     users = JSON.parse(File.read("./files/user_info.json"))
+#     users["users"] << user
+#     write_user(users)
+# end 
 
 def add_meds
     

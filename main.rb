@@ -8,8 +8,8 @@ require "tty-table"
 
 #main
 
-users = JSON.parse(File.read("./files/user_info.json"))
-login = false 
+login = false
+prompt = TTY::Prompt.new
 
 def write_user(users)
     File.open("./files/user_info.json", "w") do |f|
@@ -21,19 +21,18 @@ end
 
 loop do 
     render_logo
-    prompt = TTY::Prompt.new
     option = prompt.select("Welcome to the Pill Box!".colorize(:red)) do |menu|
         menu.enum "."
         if login == false
             menu.choice "Login", 1
-        
-        elsif login == false || login == true 
+        end 
+        if login == false || login == true 
         menu.choice "Help", 2
-        
-        elsif login == true
+        end 
+        if login == true
             menu.choice "Profile", 3
-        
-        elsif login == true
+        end 
+        if login == true
             menu.choice "Logout", 4
         end 
         
@@ -58,15 +57,24 @@ loop do
             info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
             system("clear")
             user = {Name: name, Password: password, Email: email, Medication: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
-            users = JSON.parse(File.read("./files/user_info.json"))
-            users["users"] << user
+            user_list = JSON.parse(File.read("./files/user_info.json"))
+            user_list["users"] << user
             write_user(users)
             puts "Thank you #{"Name"}, Your profile is now created".colorize(:green)
 
         elsif option_login == 2
             name = prompt.ask("Please enter your username:", required: true)
             password = prompt.mask("Please enter your password:", required: true)
-            
+            user_list = JSON.parse(File.read("./files/user_info.json"))
+            user_list["Users"].each do |user|
+                if user["Name"] == name && user["Password"] == password
+                    puts "Welcome back #{name}!"
+                elsif user["Name"] != name
+                    puts "Invalid username, Please try again"
+                elsif user["Password"] != password
+                    puts "Invalid password, Please try again"
+                end 
+            end             
         end 
     end 
     if option == 2
