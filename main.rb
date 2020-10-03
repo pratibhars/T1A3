@@ -75,7 +75,8 @@ loop do
                     puts "Invalid username, Please try again"
                 elsif user["Password"] != password
                     puts "Invalid password, Please try again"
-                end 
+                end
+            
             end             
         end 
     end 

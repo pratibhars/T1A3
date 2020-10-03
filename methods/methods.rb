@@ -36,15 +36,25 @@ end
 # end 
 
 def view_meds
-    puts "Can we re-confirm your password"
-    password = user_input
-    json = JSON.parse(File.read("./files/user_info.json"))
-    json["users"].each do |user|
+    password = prompt.mask("Can we please re-confirm your password")
+    user_list = JSON.parse(File.read("./files/user_info.json"))
+    user_list["Users"].each do |user|
         if user["Password"] == password
-            puts "Your current medications are: #{user["Medication"]}"
+            user["Medication"].each do |med|
+                med_list = []
+                puts med["Med_Name"]
+            end
+            puts "Your current medications are: #{med_list.join(", ")}"
         end 
-    end 
-end
+    end
+
+end 
+
+# json = JSON.parse(File.read("./files/user_info.json"))
+# json["users"].each do |user|
+#     if user["Password"] == password
+#         puts "Your current medications are: #{user["Medication"]}"
+#     end 
 
 def add_new_med(name, med_data)
     user_list = JSON.parse(File.read("./files/user_info.json"))
@@ -154,7 +164,7 @@ end
 #     write_user(users)
 # end 
 def update_meds
-    
+
     
 end 
 
