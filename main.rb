@@ -9,7 +9,6 @@ require "tty-table"
 #main
 
 users = JSON.parse(File.read("./files/user_info.json"))
-profiles = JSON.parse(File.read("./files/profile_info.json"))
 login = false 
 
 def write_user(users)
@@ -62,21 +61,12 @@ loop do
             users = JSON.parse(File.read("./files/user_info.json"))
             users["users"] << user
             write_user(users)
-            login = true 
-            # if login == true 
-            # end    
+            puts "Thank you #{"Name"}, Your profile is now created".colorize(:green)
+
         elsif option_login == 2
-            puts "Please enter your username"
-            name = user_input
-            puts "Please enter your password"
-            password = user_input
-            json = JSON.parse(File.read("./files/user_info.json"))
-            json["users"].each do |user|
-                if user["Name"] == name && user["Password"] == password
-                    puts "Welcome #{name}"
-                end 
-                profile_menu
-            end
+            name = prompt.ask("Please enter your username:", required: true)
+            password = prompt.mask("Please enter your password:", required: true)
+            
         end 
     end 
     if option == 2
