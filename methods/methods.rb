@@ -36,15 +36,14 @@ end
 # end 
 
 def view_meds
+    prompt = TTY::Prompt.new
     password = prompt.mask("Can we please re-confirm your password")
     user_list = JSON.parse(File.read("./files/user_info.json"))
     user_list["Users"].each do |user|
         if user["Password"] == password
             user["Medication"].each do |med|
-                med_list = []
-                puts med["Med_Name"]
+                puts med["Med_Name"].colorize(:pink)
             end
-            puts "Your current medications are: #{med_list.join(", ")}"
         end 
     end
 
@@ -128,7 +127,9 @@ def profile_menu
             elsif answer == "N"
                 profile_menu
             end 
-        end
+        elsif profile_select == 2
+            update_meds
+        end 
     when 3 #need to fix logout
         render_logo
         system("clear")
@@ -164,7 +165,26 @@ end
 #     write_user(users)
 # end 
 def update_meds
-
-    
+    prompt = TTY::Prompt.new
+    name = prompt.ask("Please confirm your username")
+    meds = prompt.ask("What medication would you like to update")
+    new_meds = prompt.ask ("What's the name of your new medication")
+    time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?")
+    duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?")
+    info = prompt.ask("When should you take the medication (options: before food, after food)")
+    update_meds = {Med_name: new_meds, Intake_Time: time, Duration: duration, Extra_Info: info}
+    user_list = JSON.parse(File.read("./files/user_info.json"))
+    user_list["Users"].each do |user|
+        if user["Name"] == name && user["Med_Name"] == meds
+            user["Medication"] << update_meds 
+        elsif user["Name"] != name 
+            puts "Invalid Username, Try again"
+            profile_menu
+        elsif user["Med_Name"] != meds 
+            puts "This medication is currently not on your profile! Please try again"
+            profile_menu
+        end 
+        File.write("./files/user_info.json", JSON.generate(user_list))
+    end
 end 
 
