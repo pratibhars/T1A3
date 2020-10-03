@@ -15,8 +15,29 @@ require "json"
 #     end
 # end
 
+def add_new_med(name, med_data)
+    user_list = JSON.parse(File.read("./files/user_info.json"))
+    user_list["Users"].each { |user|
+        if user["Name"] == name
+            user["Medication"] << med_data
+        end
+    }
+    File.write("./files/user_info.json", JSON.generate(user_list))
+end
 
-
+def retrieve_meds(name)
+    user_list = JSON.parse(File.read("./files/user_info.json"))
+    user_list["Users"].each { |user|
+        if user["Name"] == name
+            user["Medication"].each { |med|
+                puts "Name: #{med["Med_Name"]}"
+                puts "Intake Time: #{med["Intake_Time"]}"
+                puts "Duration: #{med["Duration"]}"
+                puts "Extra Info: #{med["Extra_Info"]}"
+            }
+        end
+    }
+end
 
 prompt = TTY::Prompt.new
 
@@ -30,4 +51,7 @@ med_data = {Med_Name: meds, Intake_Time: time, Duration: duration, Extra_Info: i
 add_new_med(name, med_data)
 retrieve_meds(name)
 
-
+def update_meds
+    
+    
+end 

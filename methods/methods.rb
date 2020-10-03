@@ -153,12 +153,8 @@ end
 #     users["users"] << user
 #     write_user(users)
 # end 
-
-def add_meds
-    
-end
-
 def update_meds
+    
     
 end 
 

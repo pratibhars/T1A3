@@ -11,7 +11,7 @@ require "tty-table"
 login = false
 prompt = TTY::Prompt.new
 
-def write_user(users)
+def write_user(user_list)
     File.open("./files/user_info.json", "w") do |f|
         f.write(users.to_json)
     end
@@ -57,9 +57,11 @@ loop do
             info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
             system("clear")
             user = {Name: name, Password: password, Email: email, Medication: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
+            puts user
             user_list = JSON.parse(File.read("./files/user_info.json"))
+            puts user_list
             user_list["users"] << user
-            write_user(users)
+            write_user(user_list)
             puts "Thank you #{"Name"}, Your profile is now created".colorize(:green)
 
         elsif option_login == 2
@@ -78,17 +80,10 @@ loop do
         end 
     end 
     if option == 2
-        prompt = TTY::Prompt.new
-        option_help = prompt.select("How can we assist?".colorize(:red)) do |menu|
-            menu.enum "."
-            menu.choice "Help Guide", 1
-            menu.choice "Logout", 2
-        end
-        if option_help == 1
-            puts "Welcome to The Pill Box"
-            puts "This is a quick guide on how to best use the app"
-        end 
-
+        puts "Welcome to The Pill Box".colorize(:light_blue)
+        puts "The Pill Box allows you to easily store the medication, intake times, duration and additional information, the app will then send you reminder emails to your designated email account".colorize(:light_blue)
+        puts "Use the up and down arrows to navigate the menu".colorize(:light_blue)
+        puts "Thank you! Hope you enjoy this app"
     end 
     if option == 3
         profile_menu
