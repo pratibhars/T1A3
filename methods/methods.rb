@@ -37,7 +37,7 @@ end
 
 def view_meds
     prompt = TTY::Prompt.new
-    password = prompt.mask("Can we please re-confirm your password")
+    password = prompt.mask("Can we please re-confirm your password", require: true)
     user_list = JSON.parse(File.read("./files/user_info.json"))
     user_list["Users"].each do |user|
         if user["Password"] == password
@@ -49,34 +49,28 @@ def view_meds
 
 end 
 
-# json = JSON.parse(File.read("./files/user_info.json"))
-# json["users"].each do |user|
-#     if user["Password"] == password
-#         puts "Your current medications are: #{user["Medication"]}"
-#     end 
-
 def add_new_med(name, med_data)
     user_list = JSON.parse(File.read("./files/user_info.json"))
-    user_list["Users"].each { |user|
+    user_list["Users"].each do |user|
         if user["Name"] == name
             user["Medication"] << med_data
         end
-    }
+    end 
     File.write("./files/user_info.json", JSON.generate(user_list))
 end
 
 def retrieve_meds(name)
     user_list = JSON.parse(File.read("./files/user_info.json"))
-    user_list["Users"].each { |user|
+    user_list["Users"].each do |user|
         if user["Name"] == name
-            user["Medication"].each { |med|
+            user["Medication"].each do |med|
                 puts "Name: #{med["Med_Name"]}"
                 puts "Intake Time: #{med["Intake_Time"]}"
                 puts "Duration: #{med["Duration"]}"
                 puts "Extra Info: #{med["Extra_Info"]}"
-            }
+            end
         end
-    }
+    end
 end
 
 def profile_menu
@@ -90,6 +84,7 @@ def profile_menu
     case option_profile
     when 1
     view_meds
+    profile_menu
     when 2
     prompt = TTY::Prompt.new
     profile_select = prompt.select("What would you like to do?".colorize(:red)) do |menu|
@@ -100,11 +95,11 @@ def profile_menu
         menu.choice "Update Profile", 4
         end
         if profile_select == 1
-            name = prompt.ask("Can we please confirm your username?", required: true)
-            meds = prompt.ask("What medications would you like to add?", required: true)
-            time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true)
-            duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true)
-            info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
+            name = prompt.ask("Can we please confirm your username?", required: true).colorize(:pink)
+            meds = prompt.ask("What medications would you like to add?", required: true).colorize(:pink)
+            time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true).colorize(:pink)
+            duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true).colorize(:pink)
+            info = prompt.ask("When should you take the medication (options: before food, after food)", required: true).colorize(:pink)
             system("clear")
             med_data = {Med_Name: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
             add_new_med(name, med_data)
@@ -114,11 +109,11 @@ def profile_menu
             answer = user_input
             answer.capitalize!
             if answer == "Y"
-                name = prompt.ask("Can we please confirm your username?", required: true).colorize
-                meds = prompt.ask("What medications would you like to add?", required: true)
-                time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true)
-                duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true)
-                info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
+                name = prompt.ask("Can we please confirm your username?", required: true).colorize(:pink)
+                meds = prompt.ask("What medications would you like to add?", required: true).colorize(:pink)
+                time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true).colorize(:pink)
+                duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true).colorize(:pink)
+                info = prompt.ask("When should you take the medication (options: before food, after food)", required: true).colorize(:pink)
                 system("clear")
                 med_data = {Med_Name: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
                 add_new_med(name, med_data)
@@ -166,12 +161,12 @@ end
 # end 
 def update_meds
     prompt = TTY::Prompt.new
-    name = prompt.ask("Please confirm your username")
-    meds = prompt.ask("What medication would you like to update")
-    new_meds = prompt.ask ("What's the name of your new medication")
-    time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?")
-    duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?")
-    info = prompt.ask("When should you take the medication (options: before food, after food)")
+    name = prompt.ask("Please confirm your username", required: true)
+    meds = prompt.ask("What medication would you like to update", required: true)
+    new_meds = prompt.ask("What's the name of your new medication", required: true)
+    time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true)
+    duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true )
+    info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
     update_meds = {Med_name: new_meds, Intake_Time: time, Duration: duration, Extra_Info: info}
     user_list = JSON.parse(File.read("./files/user_info.json"))
     user_list["Users"].each do |user|
