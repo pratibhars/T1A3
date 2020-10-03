@@ -5,6 +5,8 @@ require "colorize"
 require "tty"
 require "tty-prompt"
 require "tty-table"
+require "pony"
+require "json"
 
 #main
 
@@ -14,7 +16,6 @@ prompt = TTY::Prompt.new
 def write_user(user_list)
     File.open("./files/user_info.json", "w") do |f|
         f.write(users.to_json)
-    end
 end
 
 
@@ -84,7 +85,7 @@ loop do
         puts "Welcome to The Pill Box".colorize(:light_blue)
         puts "The Pill Box allows you to easily store the medication, intake times, duration and additional information, the app will then send you reminder emails to your designated email account".colorize(:light_blue)
         puts "Use the up and down arrows to navigate the menu".colorize(:light_blue)
-        puts "Thank you! Hope you enjoy this app"
+        puts "Thank you! Hope you enjoy this app".colorize(:light_blue)
     end 
     if option == 3
         profile_menu

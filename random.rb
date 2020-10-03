@@ -15,7 +15,62 @@ require "json"
 #     end
 # end
 
-prompt = TTY::Prompt.new
+
+
+def write_user(user_list)
+    File.open("./files/user_info.json", "w") do |f|
+        f.write(user_list.to_json)
+    end
+end
+
+    prompt = TTY::Prompt.new
+    name = prompt.ask("Create your username:", required: true)
+    password = prompt.mask("Create your password:", required: true)
+    email = prompt.ask("Please enter your email:", required: true)
+    system("clear")
+    user ={Name: name, Password: password, Email: email}
+    user_list = JSON.parse(File.read("./files/user_info.json"))
+    user_list["Users"] << user
+    write_user(user_list)
+    puts "Thank you for creating your account"
+    name = prompt.ask("Can we reconfirm your username, before creating your profile.", required: true)
+    meds = prompt.ask("What medications would you like to add?", required: true)
+    time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true)
+    duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true)
+    info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
+    system("clear")
+    med_data ={Med_Name: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
+    add_new_med(name, med_data)
+    puts "Thank you #{name}, Your profile is now created".colorize(:green)
+
+
+
+# user_list = JSON.parse(File.read("./files/user_info.json"))
+
+# def write_user(user_list)
+#     File.open("./files/user_info.json", "w") do |f|
+#         f.write(user_list.to_json)
+#     end
+# end
+
+#     prompt = TTY::Prompt.new
+#     name = prompt.ask("Create your username:", required: true)
+#     password = prompt.mask("Create your password:", required: true)
+#     email = prompt.ask("Please enter your email:", required: true)
+#     system("clear")
+#     puts "Welcome #{name}, Let's create your profile"
+#     meds = prompt.ask("What medications would you like to add?", required: true)
+#     time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true)
+#     duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true)
+#     info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
+#     system("clear")
+#     user ={Name: name, Password: password, Email: email, Med_Name: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
+#     user_list = JSON.parse(File.read("./files/user_info.json"))
+#     user_list["Users"] << user
+#     write_user(user_list)
+#     puts "Thank you #{name}, Your profile is now created".colorize(:green)
+
+
 # def view_meds
 #     password = prompt.mask("Can we please re-confirm your password")
 #     user_list = JSON.parse(File.read("./files/user_info.json"))

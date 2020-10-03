@@ -105,10 +105,10 @@ def profile_menu
             add_new_med(name, med_data)
             puts "Thank you! Here's your updated list"
             retrieve_meds(name)
-            puts "Would you like to add anymore? (Y/N)"
+            puts "Would you like to add anymore? (y/n)"
             answer = user_input
             answer.capitalize!
-            if answer == "Y"
+            if answer == "y"
                 name = prompt.ask("Can we please confirm your username?", required: true).colorize(:pink)
                 meds = prompt.ask("What medications would you like to add?", required: true).colorize(:pink)
                 time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true).colorize(:pink)
@@ -119,7 +119,7 @@ def profile_menu
                 add_new_med(name, med_data)
                 puts "press enter to return to menu".colorize(:red)
                 profile_menu
-            elsif answer == "N"
+            elsif answer == "n"
                 profile_menu
             end 
         elsif profile_select == 2
