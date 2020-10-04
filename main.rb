@@ -2,8 +2,8 @@ require_relative "methods/methods.rb"
 
 require "artii"
 require "colorize"
-require "tty"
 require "tty-prompt"
+require "tty-font"
 require "tty-table"
 require "pony"
 require "json"
@@ -60,7 +60,7 @@ loop do
         menu.enum "."
         menu.choice "New", 1
         menu.choice "Existing", 2
-    end
+        end
 
         #Creates new login 
         if option_login == 1

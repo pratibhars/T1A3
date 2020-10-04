@@ -16,26 +16,44 @@ Each person would have the ability to create their own profiles, this includes t
 
 #### 3. Features ####
 
-1. **Home Screen** 
+1. **Login/Home Menu** 
 
-    The pill app aims to make the home screen easy to use. The initial display will include *tba on logo* and will have three options for users to access. 1. Login - where the user can login to the application or create a new login for the application, 2. Help - the help bar will give them information on how to use the app and answer any FAQs, 3. Logout - which will help them close the application and exit. 
+    The pill app aims to make the home screen easy to use. The initial display will include logo and will have four options for users to access. 
+       1. Login - where the user can login to the application or create a new login for the application
+       2. Help - the help bar will give them information on how to use the app
+       3. Profile - the profile menu will give you the ability to view your list of medications, add to them, update them, update your profile.
+       4. Logout - which will help them close the application and exit.
 
-**Customisable profile**
+2. **Create Profile**
+   
+   The pill app creates a profile which holds the information in JSON. The information for the profile includes adding medications, intake time, duration and extra information around the pill i.e. before/after food
 
-    The customisable profiles  
+3. **Add/Update/Delete Medicine**
+    
+    Following the CRUD methodology, the applications allows you to add medications, update exisiting medications and delete the medications. 
 
-**Add/Amend/Delete Medicine**
+4. **Update Profile**
 
-**Time to take medication/ How long**
+    The app provides the ability to update password and email as well
 
-**Requirements around medication** 
+5. **Email Notification**
 
-**Reminder**
+    The app has the ability to send through email notifications to remind the users to take their pills.
 
 #### 4. Outline ####
 
+- The user can use the help menu or alternatively can run the program ```ruby main.rb - h``` to read through the menu. 
+- The pill box uses tty-prompt.select to create an easy navigation menu with prompts on screen on how to move along the menu. 
+- The user can either click into the menu option using enter or by pressing the number that is present next to the option
+- My application will have a lot of user-input error, i have used tty.prompt.ask to eliminate a lot of error around not having any input from the user or having inputs left blank, by making sure they are required functions, the other errors would be around the JSON file and data not being stored in there for this I have used the rescue error - Errno::ENOENT. 
+
 #### 5. Control Flow ####
+![image](/Users/prats/Documents/projects/Assignments/PratibhaRatishShankar_T1A3/Control_Flow_Diagram.png)
 
 #### 6. Implementation Plan ####
 
+<https://trello.com/b/CZU9UUuP/terminal-appt1a3>
+
 #### 7. Help Documentation ####
+
+

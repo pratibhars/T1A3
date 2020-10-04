@@ -24,9 +24,11 @@ def write_user(users)
 begin
     File.open("./files/user_info.json", "w") do |f|
         f.write(users.to_json)
-    end
+    end 
 rescue Errno::ENOENT
     puts "This file does not exist, Please re-check source files"
+end
+
 end
 
 #conditional checks to ensure that users login if they have the right username/password
@@ -171,7 +173,7 @@ def profile_menu
         #profile option to update medications 
             update_meds
         elsif profile_select == 3
-            #delete_meds 
+            #delete_meds
         elsif profile_select == 4
             update_profile
         end 
@@ -222,7 +224,6 @@ end
 
 #delete_meds
 
-#method to update profile within the edit options 
 def update_profile
     prompt = TTY::Prompt.new
     name = nil
