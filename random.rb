@@ -10,8 +10,13 @@ require "json"
 
 prompt = TTY::Prompt.new
 
+# name = prompt.ask("Let's confirm your username", required: true).colorize(:dark_blue)
+# password = prompt.ask("Let's confirm your password", required: true).colorize(:dark_blue)
+# del_meds
+# user_list = JSON.parse(File.read("./files/user_info.json"))
+# user_list["Users"].each { |detail| 
 
-
+update_meds
 
 
 # name = prompt.ask("Please enter your username:", required: true)

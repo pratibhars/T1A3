@@ -87,10 +87,11 @@ loop do
             end 
         end 
 
-    #help menu / command line argv 
+    #help menu 
     elsif option == 2
         puts "The Pill Box allows you to easily store the medication, intake times, duration and additional information, the app will then send you reminder emails to your designated email account".colorize(:magenta)
-        puts "The arrow keys <up> and <down> will help you navigate through the app".colorize(:light_blue)  
+        puts "The arrow keys <up> and <down> will help you navigate through the app".colorize(:light_blue)
+        puts "Thank you for using the app".colorize(:light_blue) 
     end 
 
     #this option will take you through to more options around the profile of pill box i.e. CRUD
