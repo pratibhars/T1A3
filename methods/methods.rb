@@ -37,13 +37,16 @@ end
 
 def view_meds
     prompt = TTY::Prompt.new
-    password = prompt.mask("Can we please re-confirm your password", require: true)
+    name = prompt.mask("Can we please re-confirm your username", require: true)
     user_list = JSON.parse(File.read("./files/user_info.json"))
     user_list["Users"].each do |user|
-        if user["Password"] == password
+        if user["Name"] == name
             user["Medication"].each do |med|
                 puts med["Med_Name"].colorize(:pink)
             end
+        elsif user["Name"] != name
+            puts "Invalid details, Please Try again"
+            profile_menu
         end 
     end
 
@@ -105,10 +108,9 @@ def profile_menu
             add_new_med(name, med_data)
             puts "Thank you! Here's your updated list"
             retrieve_meds(name)
-            puts "Would you like to add anymore? (y/n)"
+            puts "Would you like to add anymore? (Y/N)"
             answer = user_input
-            answer.capitalize!
-            if answer == "y"
+            if answer == "Y"
                 name = prompt.ask("Can we please confirm your username?", required: true).colorize(:pink)
                 meds = prompt.ask("What medications would you like to add?", required: true).colorize(:pink)
                 time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true).colorize(:pink)
@@ -119,13 +121,13 @@ def profile_menu
                 add_new_med(name, med_data)
                 puts "press enter to return to menu".colorize(:red)
                 profile_menu
-            elsif answer == "n"
+            elsif answer == "N"
                 profile_menu
             end 
         elsif profile_select == 2
             update_meds
         elsif profile_select == 3
-            
+
         end 
     when 3 #need to fix logout
         render_logo
@@ -136,6 +138,10 @@ def profile_menu
     end 
 end 
 
+def new_user
+    prompt = TTY::Prompt.new
+
+end 
 
 def update_meds
     prompt = TTY::Prompt.new
@@ -152,8 +158,9 @@ def update_meds
                 user["Medication"] = update_meds
             File.write("./files/user_info.json", JSON.generate(user_list))
         end 
-    rescue(Errno::ENOENT)
-        puts "Medicine not registered, Please update your profile".colorize(:red)
-    end
+    rescue Errno::ENOENT
+        puts "We're not able to find this medication. Please check your list or add it in"
+    end 
 end 
+
 
