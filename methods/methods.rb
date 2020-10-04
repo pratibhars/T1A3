@@ -124,6 +124,8 @@ def profile_menu
             end 
         elsif profile_select == 2
             update_meds
+        elsif profile_select == 3
+            
         end 
     when 3 #need to fix logout
         render_logo
@@ -135,51 +137,23 @@ def profile_menu
 end 
 
 
-
-# def new_user
-#     puts "Create your username:"
-#     name = user_input
-#     puts "Create your password:" 
-#     password = user_input
-#     puts "Please enter your email:"
-#     email = user_input
-#     system("clear")
-#     puts "Welcome #{name}, Let's create your profile"
-#     puts "What medications would you like to add?"
-#     meds = user_input
-#     puts "When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?"
-#     time = user_input
-#     puts "How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?"
-#     duration = user_input
-#     puts "When should you take the medication (options: before food, after food)"
-#     info = user_input
-#     system("clear")
-#     user = {Name: name, Password: password, Email: email, Medication: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
-#     users = JSON.parse(File.read("./files/user_info.json"))
-#     users["users"] << user
-#     write_user(users)
-# end 
 def update_meds
     prompt = TTY::Prompt.new
-    name = prompt.ask("Please confirm your username", required: true)
     meds = prompt.ask("What medication would you like to update", required: true)
     new_meds = prompt.ask("What's the name of your new medication", required: true)
-    time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true)
-    duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true )
-    info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
-    update_meds = {Med_name: new_meds, Intake_Time: time, Duration: duration, Extra_Info: info}
-    user_list = JSON.parse(File.read("./files/user_info.json"))
-    user_list["Users"].each do |user|
-        if user["Name"] == name && user["Med_Name"] == meds
-            user["Medication"] << update_meds 
-        elsif user["Name"] != name 
-            puts "Invalid Username, Try again"
-            profile_menu
-        elsif user["Med_Name"] != meds 
-            puts "This medication is currently not on your profile! Please try again"
-            profile_menu
+    new_time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true)
+    new_duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true )
+    new_info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
+    update_meds = {Med_name: new_meds, Intake_Time: new_time, Duration: new_duration, Extra_Info: new_info}
+    begin 
+        user_list = JSON.parse(File.read("./files/user_info.json"))
+        user_list["Users"].each do |user|
+            user["Medication"] = true if user_list.has_value?("meds")
+                user["Medication"] = update_meds
+            File.write("./files/user_info.json", JSON.generate(user_list))
         end 
-        File.write("./files/user_info.json", JSON.generate(user_list))
+    rescue(Errno::ENOENT)
+        puts "Medicine not registered, Please update your profile".colorize(:red)
     end
 end 
 
