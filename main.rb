@@ -20,6 +20,7 @@ def command_argv(option)
     when "-h"
         puts "We're here to help".colorize(:purple)
         puts "Please create a username and password to login and create your account".colorize(:light_blue)
+        puts "The Pill Box allows you to easily store the medication, intake times, duration and additional information, the app will then send you reminder emails to your designated email account".colorize(:light_blue)
         puts "To navigate the app, please use the scrolling menu to select what you would like to do".colorize(:light_blue)
         puts "If you would like to add, update or delete, please go to the Profile menu option".colorize(:light_blue)
         puts "Hope this has helped! Thank you and enjoy the app".colorize(:purple)
@@ -28,14 +29,13 @@ def command_argv(option)
 end
 
 ARGV.each{ |opt| command_argv(opt) }
-command_argv("-h")
 
-# loop through the application 
+
+# loops through the application 
 loop do 
     render_logo
 
     #main menu choices
-
     option = prompt.select("Welcome to the Pill Box!".colorize(:red)) do |menu|
         menu.enum "."
         if login == false
@@ -54,12 +54,8 @@ loop do
 
     
     if option == 1
-        option_login = prompt.select("New or Existing?".colorize(:red)) do |menu|
-        menu.enum "."
-        menu.choice "New", 1
-        menu.choice "Existing", 2
-        end
-        #Create new login 
+        login_menu
+        #Creates new login 
         if option_login == 1
             name = prompt.ask("Create your username:", required: true)
             password = prompt.mask("Create your password:", required: true)
@@ -85,17 +81,18 @@ loop do
                 result = login_check(name, password)
             end 
         end 
-
+    #help menu / command line argv 
     elsif option == 2
-        puts "Welcome to The Pill Box".colorize(:light_blue)
-        puts "The Pill Box allows you to easily store the medication, intake times, duration and additional information, the app will then send you reminder emails to your designated email account".colorize(:light_blue)
-        puts "Use the up and down arrows to navigate the menu".colorize(:light_blue)
-        puts "Thank you! Hope you enjoy this app".colorize(:light_blue)
+        command_argv("-h")
 
     end 
+    
+    #this option will take you through to more options around the profile of pill box i.e. CRUD
     if option == 3
         profile_menu
     end 
+
+    #with this you can exit/logout of the app 
     if option == 4
         puts "Thank you! Have a Good Day!"
         break  
