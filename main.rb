@@ -54,7 +54,12 @@ loop do
 
     
     if option == 1
-        login_menu
+    #login menu method
+     option_login = prompt.select("New or Existing?".colorize(:red)) do |menu|
+        menu.enum "."
+        menu.choice "New", 1
+        menu.choice "Existing", 2
+    end
         #Creates new login 
         if option_login == 1
             name = prompt.ask("Create your username:", required: true)
@@ -81,12 +86,13 @@ loop do
                 result = login_check(name, password)
             end 
         end 
+
     #help menu / command line argv 
     elsif option == 2
-        command_argv("-h")
-
+        puts "The Pill Box allows you to easily store the medication, intake times, duration and additional information, the app will then send you reminder emails to your designated email account".colorize(:magenta)
+        puts "The arrow keys <up> and <down> will help you navigate through the app".colorize(:light_blue)  
     end 
-    
+
     #this option will take you through to more options around the profile of pill box i.e. CRUD
     if option == 3
         profile_menu

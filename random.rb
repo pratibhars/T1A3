@@ -10,7 +10,10 @@ require "json"
 
 prompt = TTY::Prompt.new
 
-update_meds
+
+
+
+
 # name = prompt.ask("Please enter your username:", required: true)
 # password = prompt.mask("Please enter your password:", required: true)
 # user_list = JSON.parse(File.read("./files/user_info.json"))

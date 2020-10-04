@@ -10,61 +10,51 @@ def user_input
     user_input = gets.chomp
 end
 
-# display_logo
+# display_logo_pillbox
 def render_logo
     system("clear")
     logo = Artii::Base.new :font => 'slant'
     puts logo.asciify("The Pill Box")
 end
 
+# method to write to json
 def write_user(users)
     File.open("./files/user_info.json", "w") do |f|
         f.write(users.to_json)
     end
 end
 
-def login_menu
-    option_login = prompt.select("New or Existing?".colorize(:red)) do |menu|
-        menu.enum "."
-        menu.choice "New", 1
-        menu.choice "Existing", 2
-    end
-end
 
-# def view_meds
-#     puts "Can we re-confirm your password"
-#     password = user_input
-#     json = JSON.parse(File.read("./files/user_info.json"))
-#     json.find do |key|
-#         if key["Password"] == password
-#             puts "Your current medications are:"
 
-#         end 
-#     end 
-# end 
-
+#conditional checks to ensure that users login if they have the right username/password
 def login_check(name, password)
     result = nil
-    user_list = JSON.parse(File.read("./files/user_info.json"))
-    user_list["Users"].each do |user|
-        if user["Name"] == name && user["Password"] == password
-            puts "Welcome back #{name}!"
-            profile_menu
-            result = "match"
-        elsif user["Name"] == name && user["Password"] != password
-            result = "invalid pw"
+    begin 
+        user_list = JSON.parse(File.read("./files/user_info.json"))
+        user_list["Users"].each do |user|
+            if user["Name"] == name && user["Password"] == password
+                puts "Welcome back #{name}!"
+                profile_menu
+                result = "match"
+            elsif user["Name"] == name && user["Password"] != password
+                result = "invalid pw"
+            end
         end
-    end
-    puts "Sorry - those details couldn't be found" if result.nil?
-    if result.nil?
-        puts "Sorry - those details couldn't be found. Please try again"
-    elsif result == "invalid pw"
-        puts "User password detail Invalid. Please try again"
-        result = nil
-    end
-    return result
+        puts "Sorry - those details couldn't be found" if result.nil?
+        if result.nil?
+            puts "Sorry - those details couldn't be found. Please try again"
+        elsif result == "invalid pw"
+            puts "User password detail Invalid. Please try again"
+            result = nil
+        end
+        return result
+    rescue Errno::ENOENT
+        puts "We cannot find your details on file. Please create an account."
+    end 
+
 end
 
+#this shows their current medications they have already listed in their account
 def view_meds
     result = nil
     prompt = TTY::Prompt.new
@@ -82,14 +72,13 @@ def view_meds
                 result = 1
             end
         end
-        if result != 1
-            puts "Invalid details, Please Try again"
-            profile_menu
-        end
+            if result != 1
+                puts "Invalid details, Please Try again"
+                profile_menu
+            end
     rescue Errno::ENOENT
-        puts "We're not able to find any medications on your account. Please check your list or add it in"
+        puts "We're not able to the medications on file. Please check your list or add it in"
     end 
-
 end 
 
 def add_new_med(name, med_data)
@@ -138,13 +127,12 @@ def profile_menu
         menu.choice "Update Profile", 4
         end
         if profile_select == 1
-            # name = prompt.ask("Can we please confirm your username?", required: true).colorize(:pink)
             name = nil
             while name.nil?
                 puts "Can we please confirm your username?"
                 name = gets.chomp
             end
-            
+    
             meds = prompt.ask("What medications would you like to add?", required: true).colorize(:pink)
             time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true).colorize(:pink)
             duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true).colorize(:pink)
@@ -184,11 +172,6 @@ def profile_menu
     end 
 end 
 
-def new_user
-    prompt = TTY::Prompt.new
-
-end 
-
 def update_meds
     prompt = TTY::Prompt.new
     meds = prompt.ask("What medication would you like to update", required: true)
@@ -200,13 +183,11 @@ def update_meds
     begin 
         user_list = JSON.parse(File.read("./files/user_info.json"))
         user_list["Users"].each do |user|
-            user["Medication"] = true if user_list.has_value?("meds")
+            user["Medication"] == true if user_list.has_value?("meds")
                 user["Medication"] = update_meds
             File.write("./files/user_info.json", JSON.generate(user_list))
         end 
     rescue Errno::ENOENT
         puts "We're not able to find this medication. Please check your list or add it in"
     end
-end 
-
-
+end
