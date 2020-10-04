@@ -14,17 +14,12 @@ require "json"
 login = false
 prompt = TTY::Prompt.new
 
-def write_user(user_list)
-    File.open("./files/user_info.json", "w") do |f|
-        f.write(users.to_json)
-end
-
-
 # loop through the application 
 loop do 
     render_logo
 
-    #main menu choices 
+    #main menu choices
+
     option = prompt.select("Welcome to the Pill Box!".colorize(:red)) do |menu|
         menu.enum "."
         if login == false
@@ -40,6 +35,7 @@ loop do
             menu.choice "Logout", 4
         end 
     end
+
     
     if option == 1
         option_login = prompt.select("New or Existing?".colorize(:red)) do |menu|
@@ -49,7 +45,6 @@ loop do
         end
         #Create new login 
         if option_login == 1
-            prompt = TTY::Prompt.new
             name = prompt.ask("Create your username:", required: true)
             password = prompt.mask("Create your password:", required: true)
             email = prompt.ask("Please enter your email:", required: true)
@@ -65,28 +60,20 @@ loop do
             user_list["Users"] << user
             write_user(user_list)
             puts "Thank you #{name}, Your profile is now created".colorize(:green)
-        
+            profile_menu
         #Login through existing account option 
         elsif option_login == 2
             name = prompt.ask("Please enter your username:", required: true)
             password = prompt.mask("Please enter your password:", required: true)
-            begin
-                user_list = JSON.parse(File.read("./files/user_info.json"))
-                user_list["Users"].each do |user|
-                    if user["Name"] == name && user["Password"] == password
-                        puts "Welcome back #{name}!"
-                        profile_menu
-                    elsif user["Name"] != name
-                        puts "Invalid username, Please try again"
-                    elsif user["Password"] != password
-                        puts "Invalid password, Please try again"
-                    end
-                end 
-            rescue(Errno::ENOENT)
-                puts "User Accounts not registered, Please create an account".colorize(:red)
-            end    
+            user_list = JSON.parse(File.read("./files/user_info.json"))
+            user_list["Users"].each do |user|
+                if user["Name"] == name && user["Password"] == password
+                    puts "Welcome back #{name}!"
+                    profile_menu
+                end
+            end 
         end 
-    if option == 2
+    elsif option == 2
         puts "Welcome to The Pill Box".colorize(:light_blue)
         puts "The Pill Box allows you to easily store the medication, intake times, duration and additional information, the app will then send you reminder emails to your designated email account".colorize(:light_blue)
         puts "Use the up and down arrows to navigate the menu".colorize(:light_blue)
