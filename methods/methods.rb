@@ -23,6 +23,18 @@ def write_user(users)
     end
 end
 
+# def view_meds
+#     puts "Can we re-confirm your password"
+#     password = user_input
+#     json = JSON.parse(File.read("./files/user_info.json"))
+#     json.find do |key|
+#         if key["Password"] == password
+#             puts "Your current medications are:"
+
+#         end 
+#     end 
+# end 
+
 def login_check(name, password)
     result = nil
     user_list = JSON.parse(File.read("./files/user_info.json"))
@@ -45,39 +57,38 @@ def login_check(name, password)
     return result
 end
 
-# def view_meds
-#     puts "Can we re-confirm your password"
-#     password = user_input
-#     json = JSON.parse(File.read("./files/user_info.json"))
-#     json.find do |key|
-#         if key["Password"] == password
-#             puts "Your current medications are:"
-
-#         end 
-#     end 
-# end 
-
 def view_meds
+    result = nil
     prompt = TTY::Prompt.new
     name = prompt.ask("Can we please re-confirm your username", require: true)
-    # user_list = JSON.parse(File.read("./files/user_info.json"))
-    # user_list["Users"].each do |user|
-    #     if user["Name"] == name
-    #         user["Medication"].each do |med|
-    #             puts med["Med_Name"].colorize(:pink)
-    #         end
-        retrieve_meds(name)
-        if user["Name"] != name
+    begin 
+        user_list = JSON.parse(File.read("./files/user_info.json"))
+        user_list["Users"].each do |user|
+            if user["Name"] == name
+                user["Medication"].each do |med|
+                    puts "Name: #{med["Med_Name"]}"
+                    puts "Intake Time: #{med["Intake_Time"]}"
+                    puts "Duration: #{med["Duration"]}"
+                    puts "Extra Info: #{med["Extra_Info"]}"
+                end
+                result = 1
+            end
+        end
+        if result != 1
             puts "Invalid details, Please Try again"
             profile_menu
-        end 
+        end
+    rescue Errno::ENOENT
+        puts "We're not able to find any medications on your account. Please check your list or add it in"
+    end 
+
 end 
 
 def add_new_med(name, med_data)
     user_list = JSON.parse(File.read("./files/user_info.json"))
     user_list["Users"].each do |user|
         if user["Name"] == name
-            user["Medication"] << med_data
+            user["Medication"] << med_data 
         end
     end 
     File.write("./files/user_info.json", JSON.generate(user_list))
@@ -119,13 +130,19 @@ def profile_menu
         menu.choice "Update Profile", 4
         end
         if profile_select == 1
-            name = prompt.ask("Can we please confirm your username?", required: true).colorize(:pink)
+            # name = prompt.ask("Can we please confirm your username?", required: true).colorize(:pink)
+            name = nil
+            while name.nil?
+                puts "Can we please confirm your username?"
+                name = gets.chomp
+            end
+            
             meds = prompt.ask("What medications would you like to add?", required: true).colorize(:pink)
             time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true).colorize(:pink)
             duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true).colorize(:pink)
             info = prompt.ask("When should you take the medication (options: before food, after food)", required: true).colorize(:pink)
             system("clear")
-            med_data = {Med_Name: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
+            med_data = {Med_Name: meds.to_s, Intake_Time: time.to_s, Duration: duration.to_s, Extra_Info: info.to_s}
             add_new_med(name, med_data)
             puts "Thank you! Here's your updated list"
             retrieve_meds(name)
@@ -138,7 +155,7 @@ def profile_menu
                 duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true).colorize(:pink)
                 info = prompt.ask("When should you take the medication (options: before food, after food)", required: true).colorize(:pink)
                 system("clear")
-                med_data = {Med_Name: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
+                med_data ={Med_Name: meds.to_s, Intake_Time: time.to_s, Duration: duration.to_s, Extra_Info: info.to_s}
                 add_new_med(name, med_data)
                 puts "press enter to return to menu".colorize(:red)
                 profile_menu
@@ -181,7 +198,7 @@ def update_meds
         end 
     rescue Errno::ENOENT
         puts "We're not able to find this medication. Please check your list or add it in"
-    end 
+    end
 end 
 
 

@@ -15,6 +15,21 @@ login = false
 results = nil
 prompt = TTY::Prompt.new
 
+def command_argv(option)
+    case option
+    when "-h"
+        puts "We're here to help".colorize(:purple)
+        puts "Please create a username and password to login and create your account".colorize(:light_blue)
+        puts "To navigate the app, please use the scrolling menu to select what you would like to do".colorize(:light_blue)
+        puts "If you would like to add, update or delete, please go to the Profile menu option".colorize(:light_blue)
+        puts "Hope this has helped! Thank you and enjoy the app".colorize(:purple)
+        exit
+    end
+end
+
+ARGV.each{ |opt| command_argv(opt) }
+command_argv("-h")
+
 # loop through the application 
 loop do 
     render_logo
@@ -56,7 +71,7 @@ loop do
             duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true)
             info = prompt.ask("When should you take the medication (options: before food, after food)", required: true)
             system("clear")
-            user ={Name: name, Password: password, Email: email, Medication:{Med_Name: meds, Intake_Time: time, Duration: duration, Extra_Info: info}}
+            user ={Name: name, Password: password, Email: email, Medication:[{Med_Name: meds, Intake_Time: time, Duration: duration, Extra_Info: info}]}
             user_list = JSON.parse(File.read("./files/user_info.json"))
             user_list["Users"] << user
             write_user(user_list)
@@ -87,78 +102,3 @@ loop do
     end 
     
 end 
-# prompt = TTY::Prompt.new
-# option_profile = prompt.select("What would you like to do?".colorize(:red)) do |menu|
-#     menu.enum "."
-#     menu.choice "View", 1
-#     menu.choice "Edit", 2
-#     menu.choice "Logout", 3
-# end
-# if option_profile == 1
-#     puts "View"
-# end 
-
-# if option_profile == 2
-#     prompt = TTY::Prompt.new
-#     profile_select = prompt.select("What would you like to do?".colorize(:red)) do |menu|
-#         menu.enum "." 
-#         menu.choice "Add Medication", 1
-#         menu.choice "Update Medication", 2
-#         menu.choice "Delete Medication", 3
-#         menu.choice "Update Profile", 4
-#     end 
-#     if profile_select == 1
-#         puts "What medications would you like to add?"
-#         meds = user_input
-#         puts "When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?"
-#         time = user_input
-#         puts "How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?"
-#         duration = user_input
-#         puts "When should you take the medication (options: before food, after food)"
-#         info = user_input
-#         profile = {Medication: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
-#         profiles << profile
-#         write_profile(profiles)
-#         puts "#{meds} has now been added to your profile!"
-#         puts "Would you like to add anything else? (y/n)"
-#         add_more = user_input
-#         if add_more == "y"
-#             puts "What medications would you like to add?"
-#             meds = user_input
-#             puts "When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?"
-#             time = user_input
-#             puts "How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?"
-#             duration = user_input
-#             puts "When should you take the medication (options: before food, after food)"
-#             info = user_input
-#             profile = {Medication: meds, Intake_Time: time, Duration: duration, Extra_Info: info}
-#             profiles << profile
-#             write_profile(profiles)
-#         elsif add_more == "n"
-            
-#         end
-
-#     elsif profile_select == 2
-#         puts "Here's your current list of medications:"
-#         puts "What would you like to update?"
-#         answer = user_input
-    
-#     elsif profile_select == 3
-#         puts "Here's your current list of medications:"
-#         puts "What would you like to delete"
-#         answer - user_input
-#     end
-#     # else profile_select == 4
-#     #     puts "Would you like to amend your: Username, Password or Email?"
-#     # end
-# elsif option_profile == 3
-#     puts "Thank you! Have a Good Day!"
-#     break 
-# end 
-# render_logo
-# render_logo
-# render_logo
-# edit_menu
-#Login username and password
-# current_meds = JSON.parse(File.read("files/profile_info.json"), symbolize_names: true)
-# puts JSON.generate(current_meds)
