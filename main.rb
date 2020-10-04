@@ -12,6 +12,7 @@ require "json"
 #main
 
 login = false
+results = nil
 prompt = TTY::Prompt.new
 
 # loop through the application 
@@ -63,16 +64,13 @@ loop do
             profile_menu
         #Login through existing account option 
         elsif option_login == 2
-            name = prompt.ask("Please enter your username:", required: true)
-            password = prompt.mask("Please enter your password:", required: true)
-            user_list = JSON.parse(File.read("./files/user_info.json"))
-            user_list["Users"].each do |user|
-                if user["Name"] == name && user["Password"] == password
-                    puts "Welcome back #{name}!"
-                    profile_menu
-                end
+            while results.nil?
+                name = prompt.ask("Please enter your username:", required: true)
+                password = prompt.mask("Please enter your password:", required: true)
+                result = login_check(name, password)
             end 
         end 
+
     elsif option == 2
         puts "Welcome to The Pill Box".colorize(:light_blue)
         puts "The Pill Box allows you to easily store the medication, intake times, duration and additional information, the app will then send you reminder emails to your designated email account".colorize(:light_blue)

@@ -23,6 +23,28 @@ def write_user(users)
     end
 end
 
+def login_check(name, password)
+    result = nil
+    user_list = JSON.parse(File.read("./files/user_info.json"))
+    user_list["Users"].each do |user|
+        if user["Name"] == name && user["Password"] == password
+            puts "Welcome back #{name}!"
+            profile_menu
+            result = "match"
+        elsif user["Name"] == name && user["Password"] != password
+            result = "invalid pw"
+        end
+    end
+    puts "Sorry - those details couldn't be found" if result.nil?
+    if result.nil?
+        puts "Sorry - those details couldn't be found. Please try again"
+    elsif result == "invalid pw"
+        puts "User password detail Invalid. Please try again"
+        result = nil
+    end
+    return result
+end
+
 # def view_meds
 #     puts "Can we re-confirm your password"
 #     password = user_input
@@ -37,19 +59,18 @@ end
 
 def view_meds
     prompt = TTY::Prompt.new
-    name = prompt.mask("Can we please re-confirm your username", require: true)
-    user_list = JSON.parse(File.read("./files/user_info.json"))
-    user_list["Users"].each do |user|
-        if user["Name"] == name
-            user["Medication"].each do |med|
-                puts med["Med_Name"].colorize(:pink)
-            end
-        elsif user["Name"] != name
+    name = prompt.ask("Can we please re-confirm your username", require: true)
+    # user_list = JSON.parse(File.read("./files/user_info.json"))
+    # user_list["Users"].each do |user|
+    #     if user["Name"] == name
+    #         user["Medication"].each do |med|
+    #             puts med["Med_Name"].colorize(:pink)
+    #         end
+        retrieve_meds(name)
+        if user["Name"] != name
             puts "Invalid details, Please Try again"
             profile_menu
         end 
-    end
-
 end 
 
 def add_new_med(name, med_data)
