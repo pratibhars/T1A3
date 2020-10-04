@@ -23,6 +23,14 @@ def write_user(users)
     end
 end
 
+def login_menu
+    option_login = prompt.select("New or Existing?".colorize(:red)) do |menu|
+        menu.enum "."
+        menu.choice "New", 1
+        menu.choice "Existing", 2
+    end
+end
+
 # def view_meds
 #     puts "Can we re-confirm your password"
 #     password = user_input
