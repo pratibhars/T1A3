@@ -15,6 +15,7 @@ login = false
 results = nil
 prompt = TTY::Prompt.new
 
+#command line help arguments
 def command_argv(option)
     case option
     when "-h"
@@ -60,6 +61,7 @@ loop do
         menu.choice "New", 1
         menu.choice "Existing", 2
     end
+
         #Creates new login 
         if option_login == 1
             name = prompt.ask("Create your username:", required: true)
@@ -78,9 +80,11 @@ loop do
             write_user(user_list)
             puts "Thank you #{name}, Your profile is now created".colorize(:green)
             profile_menu
+
         #Login through existing account option 
         elsif option_login == 2
-            while results.nil?
+            result = nil
+            while result.nil?
                 name = prompt.ask("Please enter your username:", required: true)
                 password = prompt.mask("Please enter your password:", required: true)
                 result = login_check(name, password)

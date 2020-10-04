@@ -1,6 +1,8 @@
 require "artii"
 require "tty-prompt"
 require "colorize"
+require "pony"
+require "tty-font"
 require "json"
 
 users = JSON.parse(File.read("./files/user_info.json"))
@@ -19,12 +21,13 @@ end
 
 # method to write to json
 def write_user(users)
+begin
     File.open("./files/user_info.json", "w") do |f|
         f.write(users.to_json)
     end
+rescue Errno::ENOENT
+    puts "This file does not exist, Please re-check source files"
 end
-
-
 
 #conditional checks to ensure that users login if they have the right username/password
 def login_check(name, password)
@@ -81,6 +84,7 @@ def view_meds
     end 
 end 
 
+# add new medications to json 
 def add_new_med(name, med_data)
     user_list = JSON.parse(File.read("./files/user_info.json"))
     user_list["Users"].each do |user|
@@ -91,6 +95,7 @@ def add_new_med(name, med_data)
     File.write("./files/user_info.json", JSON.generate(user_list))
 end
 
+# retrieving info from json to app 
 def retrieve_meds(name)
     user_list = JSON.parse(File.read("./files/user_info.json"))
     user_list["Users"].each do |user|
@@ -105,6 +110,7 @@ def retrieve_meds(name)
     end
 end
 
+# profile menu
 def profile_menu
     prompt = TTY::Prompt.new
     option_profile = prompt.select("What would you like to do?".colorize(:red)) do |menu|
@@ -113,11 +119,14 @@ def profile_menu
         menu.choice "Edit", 2
         menu.choice "Logout", 3
         end
+    #conditional statements for profile options 
     case option_profile
     when 1
+    #ability to view current medications - calling methods
     view_meds
     profile_menu
     when 2
+    #edit menu - showcases CRUD options 
     prompt = TTY::Prompt.new
     profile_select = prompt.select("What would you like to do?".colorize(:red)) do |menu|
         menu.enum "." 
@@ -126,13 +135,13 @@ def profile_menu
         menu.choice "Delete Medication", 3
         menu.choice "Update Profile", 4
         end
+        #adding new medication to an existing user profile 
         if profile_select == 1
             name = nil
             while name.nil?
                 puts "Can we please confirm your username?"
                 name = gets.chomp
             end
-    
             meds = prompt.ask("What medications would you like to add?", required: true).colorize(:pink)
             time = prompt.ask("When do you need to take this (e.g. Morning, Afternoon, Night, 2 times a day)?", required: true).colorize(:pink)
             duration = prompt.ask("How long do you need to take this for (e.g. 12 months, 6 months, 24 months)?", required: true).colorize(:pink)
@@ -157,13 +166,17 @@ def profile_menu
                 profile_menu
             elsif answer == "N"
                 profile_menu
-            end 
+            end
         elsif profile_select == 2
-            # update_meds
+        #profile option to update medications 
+            update_meds
         elsif profile_select == 3
-
+            #delete_meds 
+        elsif profile_select == 4
+            update_profile
         end 
     when 3
+        #logout option 
         render_logo
         system("clear")
         puts "Thank you! Have a Good Day!"
@@ -173,11 +186,13 @@ def profile_menu
     end 
 end 
 
+#method to update medications within the edit options 
 def update_meds
     prompt = TTY::Prompt.new
     name = nil
     while name.nil?
-        name = prompt.ask("Can we please confirm your username?")
+       puts "Can we please confirm your username?"
+       name = user_input
     end
     meds = prompt.ask("What medication would you like to update", required: true)
     new_meds = prompt.ask("What's the name of your new medication", required: true)
@@ -187,8 +202,6 @@ def update_meds
     begin 
         user_list = JSON.parse(File.read("./files/user_info.json"))
         user_list["Users"].each do |user|
-            # user["Medication"] == true if user_list.has_value?("meds")
-
             if user["Name"] == name
                 user["Medication"].each do |med|
                     if med["Med_Name"] == meds
@@ -197,12 +210,39 @@ def update_meds
                         med["Duration"] = new_duration
                         med["Extra_Info"] = new_info
                     end
-                do
+                end
             end 
-                # user["Medication"] = update_meds
             File.write("./files/user_info.json", JSON.generate(user_list))
         end 
     rescue Errno::ENOENT
         puts "We're not able to find this medication. Please check your list or add it in"
     end
+    profile_menu
+end
+
+#delete_meds
+
+#method to update profile within the edit options 
+def update_profile
+    prompt = TTY::Prompt.new
+    name = nil
+    while name.nil?
+       puts "Can we please confirm your username?"
+       name = user_input
+    end
+    new_password = prompt.ask("What would you like to change your password to?", required: true)
+    new_email = prompt.ask("What would you like to update your email to?", required: true)
+    begin 
+        user_list = JSON.parse(File.read("./files/user_info.json"))
+        user_list["Users"].each do |user|
+            if user["Name"] == name
+                user["Password"] = new_password
+                user["Email"] = new_email
+            end
+            File.write("./files/user_info.json", JSON.generate(user_list))
+        end 
+    rescue Errno::ENOENT
+        puts "We're not able to find this medication. Please check your list or add it in"
+    end
+    profile_menu
 end
