@@ -1,4 +1,4 @@
-require_relative "methods/methods.rb"
+require_relative "methods.rb"
 
 require "artii"
 require "colorize"

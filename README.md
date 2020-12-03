@@ -2,13 +2,13 @@
 
 #### 1. Source Control Repository ####
 
-Git Repo 
+Git Repo - https://github.com/pratibhars/T1A3.git
 
 #### 2. Purpose and Scope ####
 
 **Pill App (better name tba)**
 
-The Pill App is designed for individuals who have to take medications at set times. There are multiple medications that a person might need to take based on their situation. It could be someone who is recovering from their sickness, chronic illness, they are older and generally on multiple medications or a regular person who's keen on taking supplements such as vitamins but finds it's hard to remember when to take their medications. The application could also be used by parents for their kids, caregivers or pet owners.
+The Pill Box is designed for individuals who have to take medications at set times. There are multiple medications that a person might need to take based on their situation. It could be someone who is recovering from their sickness, chronic illness, they are older and generally on multiple medications or a regular person who's keen on taking supplements such as vitamins but finds it's hard to remember when to take their medications. The application could also be used by parents for their kids, caregivers or pet owners.
 
 The application would look at solving this problem by giving them a terminal app into which they can enter the medication they’d need to take and when they’d need to take it and how long they’d need the to take it for and if the medication is to be taken, before food, after food. They can then add and delete and update this list when things changes. The application would then send them a email reminder on the day the pill needs to be taken.
 
@@ -48,12 +48,9 @@ Each person would have the ability to create their own profiles, this includes t
 - My application will have a lot of user-input error, i have used tty.prompt.ask to eliminate a lot of error around not having any input from the user or having inputs left blank, by making sure they are required functions, the other errors would be around the JSON file and data not being stored in there for this I have used the rescue error - Errno::ENOENT. 
 
 #### 5. Control Flow ####
-![image](/Users/prats/Documents/projects/Assignments/PratibhaRatishShankar_T1A3/Control_Flow_Diagram.png)
+![image](./docs/Control_Flow_Diagram.png)
 
 #### 6. Implementation Plan ####
 
 <https://trello.com/b/CZU9UUuP/terminal-appt1a3>
-
-#### 7. Help Documentation ####
-
 
